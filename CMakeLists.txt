@@ -41,6 +41,7 @@ set (CPACK_PACKAGE_CONTACT "julian@bzip.org")
 
 include (CMakePackageConfigHelpers)
 include (CPack)
+include (CTest)
 include (GNUInstallDirs)
 
 set (CMAKE_DEBUG_POSTFIX d)
@@ -121,3 +122,30 @@ install (PROGRAMS $<TARGET_FILE:bzip2>
 install (FILES LICENSE DESTINATION
   ${CMAKE_INSTALL_DATAROOTDIR}/licenses/bzip2
   COMPONENT Runtime)
+
+if (WIN32)
+  set (_COMPARE fc)
+else (WIN32)
+  set (_COMPARE cmp)
+endif (WIN32)
+
+add_test (NAME sample1 COMMAND ${CMAKE_COMMAND}
+  -DCOMPARE=${_COMPARE}
+  -DEXECUTABLE=$<TARGET_FILE:bzip2> -DARGS=-1
+  -DIN=${CMAKE_CURRENT_SOURCE_DIR}/sample1.ref
+  -DOUT=${CMAKE_CURRENT_SOURCE_DIR}/sample1.bz2
+  -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/runtest.cmake)
+
+add_test (NAME sample2 COMMAND ${CMAKE_COMMAND}
+  -DCOMPARE=${_COMPARE}
+  -DEXECUTABLE=$<TARGET_FILE:bzip2> -DARGS=-2
+  -DIN=${CMAKE_CURRENT_SOURCE_DIR}/sample2.ref
+  -DOUT=${CMAKE_CURRENT_SOURCE_DIR}/sample2.bz2
+  -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/runtest.cmake)
+
+add_test (NAME sample3 COMMAND ${CMAKE_COMMAND}
+  -DCOMPARE=${_COMPARE}
+  -DEXECUTABLE=$<TARGET_FILE:bzip2> -DARGS=-3
+  -DIN=${CMAKE_CURRENT_SOURCE_DIR}/sample3.ref
+  -DOUT=${CMAKE_CURRENT_SOURCE_DIR}/sample3.bz2
+  -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/runtest.cmake)
