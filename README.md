@@ -1,5 +1,7 @@
 # CMake support for bzip2
 
+[![Build status](https://ci.appveyor.com/api/projects/status/4krhvh7hhl41fyvh?svg=true)](https://ci.appveyor.com/project/sergiud/bzip2)
+
 This repository implementes native CMake support for bzip2 with minor
 modifications to original sources. A package configuration for easy integration
 in own projects is also provided.
